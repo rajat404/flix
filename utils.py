@@ -1,5 +1,6 @@
 import os
-from config import movie_ext, movie_paths
+from config import movie_ext
+
 
 def create_project_directory(directory):
     """
@@ -7,15 +8,6 @@ def create_project_directory(directory):
     """
     if not os.path.exists(directory):
         os.makedirs(directory)
-
-
-def add_path(directory):
-    """
-    Adds the specified directory in the config as a movie path
-    """
-    if not os.path.exists(directory):
-        return False
-    movie_paths.append(directory)
 
 
 def get_file_list():

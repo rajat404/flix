@@ -8,13 +8,12 @@ from pygments.style import Style
 from pygments.styles.default import DefaultStyle
 from pygments.token import Token
 
-import dataset
 import click
+import os
 
-from utils import create_project_directory, add_path, get_file_list
-from config import project_path, history_file, db_file, movie_paths
-
-db = dataset.connect('sqlite:///{}'.format(db_file))
+from utils import create_project_directory, get_file_list
+from config import project_path, history_file
+from db_config import db, movie_paths
 
 
 class DocumentStyle(Style):
@@ -40,8 +39,8 @@ def main(directories):
         for directory in directories:
             # Ensure that the directory path begins with '/', but doesn't end with one
             path = '/{}'.format(directory.strip('/'))
-            if path not in movie_paths:
-                add_path(path)
+            if (path not in movie_paths.find(directory=path)) and (os.path.exists(path)):
+                    movie_paths.insert(dict(directory=path))
 
     print('Press Ctrl+D to exit at any time!')
     history = FileHistory(history_file)

@@ -5,6 +5,3 @@ movie_ext = ['.3g2', '.3gp', '.3gp2', '.3gpp', '.60d', '.ajp', '.asf', '.asx', '
 project_path = '{}/.mocount'.format(os.path.expanduser('~'))
 history_file = '{}/search-history'.format(project_path)
 db_file = '{}/movies.db'.format(project_path)
-
-# TO DO: save in DB
-movie_paths = []
