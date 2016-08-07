@@ -1,5 +1,7 @@
 import os
 from config import movie_ext
+from db_config import db
+
 
 def create_project_directory(directory):
     """
@@ -9,10 +11,8 @@ def create_project_directory(directory):
         os.makedirs(directory)
 
 
-def get_file_list(movie_paths):
-    all_paths = []
-    for each_path in movie_paths.distinct('directory'):
-        all_paths.append(each_path.get('directory'))
+def get_file_list():
+    all_paths = db.tables.movie_paths.unique('directory')['directory'].tolist()
     file_list = []
     for directory in all_paths:
         for path, subdirs, files in os.walk(directory):
