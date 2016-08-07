@@ -1,6 +1,16 @@
 import os
+import requests
+from guessit import guessit
+
 from config import movie_ext
 from db_config import db
+
+keys_to_keep = ['Actors', 'Director', 'Genre', 'Metascore', 'Plot', 'Released',
+                'Runtime', 'Title', 'Type', 'Year', 'imdbID', 'imdbRating',
+                'tomatoConsensus', 'tomatoMeter', 'tomatoURL',
+                'tomatoUserMeter']
+
+url = 'http://www.omdbapi.com/?'
 
 
 def create_project_directory(directory):
@@ -23,3 +33,16 @@ def get_file_list():
                 if ext.lower() in movie_ext:
                     file_list.append(filename)
     return file_list
+
+
+def fetch_movie_details(movie):
+    info = guessit(movie)
+    params = {'t': info['title'].encode('ascii', 'ignore'),
+              'type': info['type'],
+              'tomatoes': 'true'}
+    if 'year' in info:
+        params['y'] = info['year']
+
+    resp = requests.get(url=url, params=params)
+    response = resp.json()
+    return {k: response[k] for k in keys_to_keep if k in response}
