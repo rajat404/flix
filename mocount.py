@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import os
 import sys
+from guessit import guessit
 
 import utils
 from config import project_path
-from db_config import db, dataset_db
+from db_config import dataset_db
 
 
 def main():
@@ -34,12 +35,19 @@ def main():
     if file_list is None:
         print('No video files found')
         return
-    print('file_list:', file_list)
 
-    movie_data = []
-    for movie in file_list:
-        temp = utils.fetch_movie_details(movie)
-        movie_data.append(temp)
+    failed_list = []
+    movie_data = dataset_db['movie_data']
+    for i, movie in enumerate(file_list):
+        print(i, movie)
+        info = guessit(movie)
+        temp = utils.fetch_movie_details(info)
+        if temp == {}:
+            failed_list.append(movie)
+            continue
+        movie_data.upsert(temp, ['imdbID'])
+
+    print('Failed for:', failed_list)
 
 
 if __name__ == '__main__':

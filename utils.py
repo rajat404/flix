@@ -1,6 +1,6 @@
 import os
 import requests
-from guessit import guessit
+import json
 
 from config import movie_ext
 from db_config import db
@@ -35,8 +35,8 @@ def get_file_list():
     return file_list
 
 
-def fetch_movie_details(movie):
-    info = guessit(movie)
+def fetch_movie_details(info):
+    print('\n', info['title'])
     params = {'t': info['title'].encode('ascii', 'ignore'),
               'type': info['type'],
               'tomatoes': 'true'}
@@ -44,5 +44,9 @@ def fetch_movie_details(movie):
         params['y'] = info['year']
 
     resp = requests.get(url=url, params=params)
-    response = resp.json()
-    return {k: response[k] for k in keys_to_keep if k in response}
+    if resp.ok:
+        response = json.loads(resp.text)
+        return {k: response[k] for k in keys_to_keep if k in response}
+    else:
+        return {}
+
