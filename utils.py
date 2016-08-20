@@ -1,8 +1,10 @@
 import os
 import requests
 import json
+from guessit import guessit
+from config import movie_ext, dataset_db, db
 
-from config import movie_ext, db
+movie_data = dataset_db['movie_data']
 
 keys_to_keep = ['Actors', 'Director', 'Genre', 'Metascore', 'Plot', 'Released',
                 'Runtime', 'Title', 'Type', 'Year', 'imdbID', 'imdbRating',
@@ -34,18 +36,26 @@ def get_file_list():
     return file_list
 
 
-def fetch_movie_details(info):
-    print('\n', info['title'])
-    params = {'t': info['title'].encode('ascii', 'ignore'),
-              'type': info['type'],
-              'tomatoes': 'true'}
-    if 'year' in info:
-        params['y'] = info['year']
+def fetch_movie_details(filename):
+    info = guessit(filename)
+    try:
+        # print('\n', info['title'])
+        params = {'t': info['title'].encode('ascii', 'ignore'),
+                  'type': info['type'],
+                  'tomatoes': 'true'}
+        if 'year' in info:
+            params['y'] = info['year']
 
-    resp = requests.get(url=url, params=params)
-    if resp.ok:
-        response = json.loads(resp.text)
-        return {k: response[k] for k in keys_to_keep if k in response}
-    else:
-        return {}
-
+        resp = requests.get(url=url, params=params)
+        if resp.ok:
+            response = json.loads(resp.text)
+            temp = {k: response[k] for k in keys_to_keep if k in response}
+            temp['Filename'] = filename
+            # movie_data.insert(temp)
+            movie_data.upsert(temp, ['imdbID'])
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(e)
+        return False

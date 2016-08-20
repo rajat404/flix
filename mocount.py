@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import os
 import sys
-from guessit import guessit
 
 import utils
 from config import project_path, dataset_db
@@ -16,11 +15,13 @@ def main():
     utils.create_project_directory(project_path)
     directories = sys.argv[1:]
     print('dir entered:', directories)
-    if directories is None:
-        print("Please mention the directories")
-        return
+    # if len(directories) == 0:
+    #     print("Please mention the directories")
+    #     return
 
     movie_paths = dataset_db['movie_paths']
+    movie_data = dataset_db['movie_data']
+
     for directory in directories:
         # Ensure that the directory path begins with '/',
         # but doesn't end with one, and is NOT root
@@ -37,17 +38,22 @@ def main():
 
     failed_list = []
     movie_data = dataset_db['movie_data']
-    for i, movie in enumerate(file_list):
-        print(i, movie)
-        info = guessit(movie)
-        temp = utils.fetch_movie_details(info)
-        if temp == {}:
-            failed_list.append(movie)
+    for i, filename in enumerate(file_list):
+        try:
+            data_exists = movie_data.find_one(Filename=filename)
+            if data_exists:
+                print('ALready indexed:', filename)
+                continue
+        except:
+            pass
+
+        print(i, filename)
+        temp = utils.fetch_movie_details(filename)
+        if temp is False:
+            failed_list.append(filename)
             continue
-        movie_data.upsert(temp, ['imdbID'])
 
     print('Failed for:', failed_list)
-
 
 if __name__ == '__main__':
     main()
