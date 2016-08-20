@@ -42,7 +42,7 @@ def main():
         try:
             data_exists = movie_data.find_one(Filename=filename)
             if data_exists:
-                print('ALready indexed:', filename)
+                print('Already indexed:', filename)
                 continue
         except:
             pass
