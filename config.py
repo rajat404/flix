@@ -1,4 +1,6 @@
 import os
+import dataset
+from db import DB
 
 movie_ext = ['.3g2', '.3gp', '.3gp2', '.3gpp', '.60d', '.ajp', '.asf', '.asx',
              '.avchd', '.avi', '.bik', '.bix', '.box', '.cam', '.dat', '.divx',
@@ -14,3 +16,6 @@ movie_ext = ['.3g2', '.3gp', '.3gp2', '.3gpp', '.60d', '.ajp', '.asf', '.asx',
 project_path = '{}/.mocount'.format(os.path.expanduser('~'))
 # history_file = '{}/search-history'.format(project_path)
 db_file = '{}/movies.db'.format(project_path)
+
+dataset_db = dataset.connect('sqlite:///{}'.format(db_file))
+db = DB(filename=db_file, dbname="movies", dbtype="sqlite")

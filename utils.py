@@ -2,8 +2,7 @@ import os
 import requests
 import json
 
-from config import movie_ext
-from db_config import db
+from config import movie_ext, db
 
 keys_to_keep = ['Actors', 'Director', 'Genre', 'Metascore', 'Plot', 'Released',
                 'Runtime', 'Title', 'Type', 'Year', 'imdbID', 'imdbRating',

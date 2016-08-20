@@ -4,8 +4,7 @@ import sys
 from guessit import guessit
 
 import utils
-from config import project_path
-from db_config import dataset_db
+from config import project_path, dataset_db
 
 
 def main():

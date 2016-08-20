@@ -1,1 +1,3 @@
-A Command Line Movie Manager
+##A Command Line Movie Manager
+
+Work in progress!
