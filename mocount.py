@@ -3,7 +3,7 @@ import os
 import sys
 
 import utils
-from config import project_path, dataset_db
+from settings import project_path, dataset_db
 
 
 def main():

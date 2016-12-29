@@ -2,7 +2,7 @@ import os
 import requests
 import json
 from guessit import guessit
-from config import movie_ext, dataset_db, db
+from settings import movie_ext, dataset_db, db
 
 movie_data = dataset_db['movie_data']
 
