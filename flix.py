@@ -1,10 +1,19 @@
 #!/usr/bin/env python
-import os
-import sys
+from models import database, Media, Show, File, Directory, List
+from flask import Flask
+
+app = Flask(__name__)
 
 
-from settings import project_path, dataset_db, movie_ext, db, movie_url
+@app.route('/')
+def hello():
+    return "Hello World!"
 
-import requests
-import json
-from guessit import guessit
+
+@app.route('/<name>')
+def hello_name(name):
+    return "Hello {}!".format(name)
+
+if __name__ == '__main__':
+    database.create_tables([Media, Show, File, Directory, List], safe=True)
+    app.run()

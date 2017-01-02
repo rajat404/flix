@@ -6,10 +6,10 @@ from playhouse.dataset import DataSet
 # for DB.py
 # from db import DB
 # db = DB(filename=db_file, dbname="flix", dbtype="sqlite")
-logger = logging.getLogger('sdl')
+logger = logging.getLogger()
 
-LOG_FILENAME = 'metaflix.log'
-logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO,)
+# LOG_FILENAME = 'flix.log'
+# logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO,)
 
 
 project_path = '{}/.flix'.format(os.path.expanduser('~'))
@@ -18,7 +18,7 @@ db_file = '{}/flix.db'.format(project_path)
 # dataset_db = dataset.connect('sqlite:///{}'.format(db_file))
 dataset_db = DataSet('sqlite:///{}'.format(db_file))
 
-media_api_url = 'http://www.omdbapi.com/?'
+media_url = 'http://www.omdbapi.com/?'
 
 # media_extenions = [
 #     '.3g2', '.3gp', '.3gp2', '.3gpp', '.60d', '.ajp', '.asf', '.asx',
