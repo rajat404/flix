@@ -3,10 +3,10 @@ import requests
 import json
 import glob
 from guessit import guessit
-from settings import media_extenions, media_url, response_mapping, logger
-from helpers import print_error, flatten
+from .settings import media_extenions, media_url, response_mapping, logger
+from .helpers import print_error, flatten
 from peewee import IntegrityError, OperationalError
-from models import Media, File
+from .models import Media, File
 
 
 def create_project_directory(directory):

@@ -2,7 +2,7 @@ from peewee import (SqliteDatabase, Model, CharField, IntegerField, FloatField,
                     TextField, ForeignKeyField, DateTimeField)
 from playhouse.fields import ManyToManyField
 
-from settings import db_file
+from .settings import db_file
 import datetime
 
 database = SqliteDatabase(db_file)
