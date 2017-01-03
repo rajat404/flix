@@ -3,7 +3,7 @@ import requests
 import json
 import glob
 # from guessit import guessit
-from .settings import media_extenions, media_url, response_mapping, logger
+from .settings import MEDIA_EXTENSIONS, MEDIA_URL, response_mapping, logger
 from .helpers import log_error, flatten
 from peewee import IntegrityError
 from .models import Media, File
@@ -25,9 +25,9 @@ def get_file_list(dir_list):
     if isinstance(dir_list, list) is False:
         raise ValueError('Please enter a list, not string')
     for directory in dir_list:
-        # TODO: Instead of all media_extenions, ask user which extensions to consider
+        # TODO: Instead of all MEDIA_EXTENSIONS, ask user which extensions to consider
         file_list.extend(flatten([glob.glob('{}/*/**/*{}'.format(directory, ext), recursive=True)
-                                  for ext in media_extenions]))
+                                  for ext in MEDIA_EXTENSIONS]))
     return file_list
 
 
@@ -62,7 +62,7 @@ def fetch_media_details(info):
     if info['type'] == 'episode':
         params['type'] = 'series'
 
-    resp = requests.get(url=media_url, params=params)
+    resp = requests.get(url=MEDIA_URL, params=params)
     response = json.loads(resp.text)
 
     # because resp.ok - is coming true for all cases

@@ -1,15 +1,13 @@
 from peewee import (SqliteDatabase, Model, CharField, IntegerField, FloatField,
-                    TextField, ForeignKeyField, DateTimeField)
-from playhouse.fields import ManyToManyField
-
-from .settings import db_file
+                    TextField, ForeignKeyField, DateTimeField, BooleanField)
+from .settings import DB_FILE
 import datetime
 
-database = SqliteDatabase(db_file)
+database = SqliteDatabase(DB_FILE)
 
 
 class BaseModel(Model):
-    modified_at = DateTimeField(default=datetime.datetime.now())
+    created_at = DateTimeField(default=datetime.datetime.now())
 
     class Meta:
         database = database
@@ -35,23 +33,10 @@ class Media(BaseModel):
     tomato_url = CharField()
     poster = CharField()
     rated = CharField()
+    watched = BooleanField(default=True)
 
     class Meta:
         db_table = 'media'
-
-
-class Show(BaseModel):
-    """
-    Contains season/episode data of TV Series
-    """
-    media = ForeignKeyField(Media, null=True)
-    season = IntegerField()
-    episode = IntegerField()
-    title = CharField(unique=True)  # Episode Title
-    extra = CharField()
-
-    class Meta:
-        db_table = 'show'
 
 
 class File(BaseModel):
@@ -63,21 +48,3 @@ class File(BaseModel):
 
     class Meta:
         db_table = 'file'
-
-
-class Directory(BaseModel):
-    """
-    Directories to scan
-    """
-    path = CharField(unique=True)
-
-    class Meta:
-        db_table = 'directory'
-
-
-class List(BaseModel):
-    """
-    Contains all the lists and their relations with media
-    """
-    name = CharField()
-    medias = ManyToManyField(Media, related_name='lists')

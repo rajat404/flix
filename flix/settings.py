@@ -1,26 +1,22 @@
 import os
 import logging
-# import dataset
-from playhouse.dataset import DataSet
 
-# for DB.py
+## For DB.py
 # from db import DB
-# db = DB(filename=db_file, dbname="flix", dbtype="sqlite")
+# db = DB(filename=DB_FILE, dbname="flix", dbtype="sqlite")
+
+# import dataset
+# dataset_db = dataset.connect('sqlite:///{}'.format(DB_FILE))
+
+# from playhouse.dataset import DataSet
+# dataset_db = DataSet('sqlite:///{}'.format(DB_FILE))
+
 logger = logging.getLogger()
+PROJECT_PATH = '{}/.flix'.format(os.path.expanduser('~'))
+DB_FILE = '{}/flix.db'.format(PROJECT_PATH)
+MEDIA_URL = 'http://www.omdbapi.com/?'
 
-# LOG_FILENAME = 'flix.log'
-# logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO,)
-
-
-project_path = '{}/.flix'.format(os.path.expanduser('~'))
-db_file = '{}/flix.db'.format(project_path)
-
-# dataset_db = dataset.connect('sqlite:///{}'.format(db_file))
-dataset_db = DataSet('sqlite:///{}'.format(db_file))
-
-media_url = 'http://www.omdbapi.com/?'
-
-# media_extenions = [
+# MEDIA_EXTENSIONS = [
 #     '.3g2', '.3gp', '.3gp2', '.3gpp', '.60d', '.ajp', '.asf', '.asx',
 #     '.avchd', '.avi', '.bik', '.bix', '.box', '.cam', '.dat', '.divx',
 #     '.dmf', '.dv', '.dvr-ms', '.evo', '.flc', '.fli', '.flic', '.flv',
@@ -33,7 +29,7 @@ media_url = 'http://www.omdbapi.com/?'
 #     '.wmv', '.wmx', '.wrap', '.wvx', '.wx', '.x264', '.xvid'
 # ]
 
-media_extenions = [
+MEDIA_EXTENSIONS = [
     '.3gp', '.dat', '.divx', '.flv', '.m4v', '.mkv', '.mov', '.movhd',
     '.mp4', '.mpeg', '.mpg', '.rm', '.rmvb', '.vob', '.wm', '.wmv', '.xvid'
 ]
