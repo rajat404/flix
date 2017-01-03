@@ -9,7 +9,7 @@ from peewee import IntegrityError
 from .models import Media, File
 
 
-def create_project_directory(directory):
+def create_db_directory(directory):
     """
     Creates the specified directory if it does not exist
     """

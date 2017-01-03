@@ -12,8 +12,8 @@ import logging
 # dataset_db = DataSet('sqlite:///{}'.format(DB_FILE))
 
 logger = logging.getLogger()
-PROJECT_PATH = '{}/.flix'.format(os.path.expanduser('~'))
-DB_FILE = '{}/flix.db'.format(PROJECT_PATH)
+DB_PATH = '{}/.flix'.format(os.path.expanduser('~'))
+DB_FILE = '{}/flix.db'.format(DB_PATH)
 MEDIA_URL = 'http://www.omdbapi.com/?'
 
 # MEDIA_EXTENSIONS = [

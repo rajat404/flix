@@ -48,3 +48,13 @@ class File(BaseModel):
 
     class Meta:
         db_table = 'file'
+
+
+class Directory(BaseModel):
+    """
+    Directories to scan
+    """
+    directory = CharField(unique=True)
+
+    class Meta:
+        db_table = 'directory'
