@@ -2,11 +2,11 @@ import linecache
 import sys
 import traceback
 from decorator import decorator
-from settings import logger
+from .settings import logger
 
 
 @decorator
-def print_error(fn, *args, **kwargs):
+def log_error(fn, *args, **kwargs):
     try:
         return fn(*args, **kwargs)
     except:
@@ -17,9 +17,9 @@ def print_error(fn, *args, **kwargs):
         traceback_text = ''.join(traceback.format_exception(*sys.exc_info()))
         logger.error('EXCEPTION IN:\nFUNCTION: {}\nERROR: {}\nEXCEPTION: {}'.format(
             fn.__name__, exc_obj, traceback_text))
-        print('EXCEPTION IN:\nFUNCTION: {}\nERROR: {}\nEXCEPTION: {}'.format(
-            fn.__name__, exc_obj, traceback_text))
-        print('-'*50)
+        # print('EXCEPTION IN:\nFUNCTION: {}\nERROR: {}\nEXCEPTION: {}'.format(
+        #     fn.__name__, exc_obj, traceback_text))
+        # print('-'*50)
         return False
 
 

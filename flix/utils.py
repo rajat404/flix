@@ -2,10 +2,10 @@ import os
 import requests
 import json
 import glob
-from guessit import guessit
+# from guessit import guessit
 from .settings import media_extenions, media_url, response_mapping, logger
-from .helpers import print_error, flatten
-from peewee import IntegrityError, OperationalError
+from .helpers import log_error, flatten
+from peewee import IntegrityError
 from .models import Media, File
 
 
@@ -31,20 +31,36 @@ def get_file_list(dir_list):
     return file_list
 
 
-@print_error
-def fetch_media_details(filename):
+def check_file_existence(info):
+    """
+    Check whether the file already exists in the DB
+    """
+    # info = guessit(filename)
+    try:
+        Media.get(Media.title == info['title'])
+        return True
+    except Media.DoesNotExist:
+        return False
+
+
+@log_error
+def fetch_media_details(info):
     """
     Takes the name of the media file and returns the metadata for the movie
     """
-    info = guessit(filename)
+    # info = guessit(filename)
     logger.info('\n', info['title'])
     params = {'t': info['title'].encode('ascii', 'ignore'),
-              'type': info['type'],
               'tomatoes': 'true',
               'plot': 'full',
               'v': '1'}
+
     if 'year' in info:
         params['y'] = info['year']
+
+    # OMDB API limitation
+    if info['type'] == 'episode':
+        params['type'] = 'series'
 
     resp = requests.get(url=media_url, params=params)
     response = json.loads(resp.text)
@@ -65,7 +81,7 @@ def save_media_details(filename, details):
         file = File.create(filename=filename)
     except IntegrityError:
         print('File `{}` already exists'.format(filename))
-        pass
+        return
 
     if details:
         try:
@@ -88,6 +104,11 @@ def remap_response(response, response_mapping=response_mapping):
 
         if value == 'N/A':
             value = default_value
+
+        # OMDB API limitation
+        # For TV Series, the year can be a string like `2009-2015`
+        if new_key == 'year' and len(value) > 4:
+            value = value.split('–')[0]
 
         result[new_key] = result_data_type(value)
     return result
