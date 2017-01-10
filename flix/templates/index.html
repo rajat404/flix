@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">All Media</div>
+
+<table class="table">
+    <thead>
+        <tr>
+          <th>imdb_id</th>
+          <th>title</th>
+          <th>year</th>
+          <th>rating</th>
+          <th>metascore</th>
+          <th>tomato_meter</th>
+          <th>media_type</th>
+          <th>genre</th>
+          <th>actors</th>
+          <th>director</th>
+          <th>plot</th>
+          <th>released</th>
+          <th>runtime</th>
+          <th>tomato_url</th>
+          <th>poster</th>
+          <th>rated</th>
+          <th>watched</th>
+        <tr>
+    </thead>
+    <tbody>
+        {% for media in all_media %}
+        <tr>
+          <td>{{ media.imdb_id }}</td>
+          <td>{{ media.title }}</td>
+          <td>{{ media.year }}</td>
+          <td>{{ media.rating }}</td>
+          <td>{{ media.metascore }}</td>
+          <td>{{ media.tomato_meter }}</td>
+          <td>{{ media.media_type }}</td>
+          <td>{{ media.genre }}</td>
+          <td>{{ media.actors }}</td>
+          <td>{{ media.director }}</td>
+          <td>{{ media.plot }}</td>
+          <td>{{ media.released }}</td>
+          <td>{{ media.runtime }}</td>
+          <td>{{ media.tomato_url }}</td>
+          <td>{{ media.poster }}</td>
+          <td>{{ media.rated }}</td>
+          <td>{{ media.watched }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}
