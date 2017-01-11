@@ -23,13 +23,13 @@
 
 from flix.flix import app
 from flix.models import database, Media, File, Directory
-from flix.utils import create_db_directory
+from flix.utils import create_directory
 from flix.settings import DB_PATH
 from werkzeug.serving import run_simple
 
 
 if __name__ == '__main__':
-    create_db_directory(DB_PATH)
+    create_directory(DB_PATH)
     database.create_tables([Media, File, Directory], safe=True)
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['DEBUG'] = True

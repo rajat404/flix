@@ -14,6 +14,7 @@ import logging
 logger = logging.getLogger()
 DB_PATH = '{}/.flix'.format(os.path.expanduser('~'))
 DB_FILE = '{}/flix.db'.format(DB_PATH)
+IMAGE_PATH = '{}/images'.format(DB_PATH)
 MEDIA_URL = 'http://www.omdbapi.com/?'
 
 # MEDIA_EXTENSIONS = [

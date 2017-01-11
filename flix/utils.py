@@ -2,14 +2,15 @@ import os
 import requests
 import json
 import glob
-# from guessit import guessit
-from .settings import MEDIA_EXTENSIONS, MEDIA_URL, response_mapping, logger
-from .helpers import log_error, flatten
+from urllib.request import urlretrieve
 from peewee import IntegrityError
+# from guessit import guessit
+from .settings import MEDIA_EXTENSIONS, MEDIA_URL, IMAGE_PATH, response_mapping, logger
+from .helpers import log_error, flatten
 from .models import Media, File
 
 
-def create_db_directory(directory):
+def create_directory(directory):
     """
     Creates the specified directory if it does not exist
     """
@@ -112,3 +113,11 @@ def remap_response(response, response_mapping=response_mapping):
 
         result[new_key] = result_data_type(value)
     return result
+
+
+def download_images():
+    create_directory(IMAGE_PATH)
+    urls = [(movie.imdb_id, movie.poster) for movie in Media.select()]
+    print('Downloading images...\n')
+    for imdb_id, url in urls:
+        urlretrieve(url=url, filename='{}/{}.jpg'.format(IMAGE_PATH, imdb_id))
